@@ -1,0 +1,44 @@
+/*
+Write a java program that connects to oracle database, queries the inbuilt 
+table “emp” of all the rows.
+ */
+ 
+ import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class Assignment2 {
+
+	public static void main(String[] args) throws SQLException {
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs;
+		
+		try {			
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@PC:1521:XE", "system", "tiger");			
+		} catch (Exception e) {
+			System.out.println("Connection could  not be established");
+			if (conn != null) conn.close();
+		}
+		
+		String sql = "SELECT name, address, salary FROM emp";
+		stmt = conn.createStatement();
+		rs = stmt.executeQuery(sql);
+		
+		while (rs.next()) {
+			System.out.println("Name: " + rs.getString(1) + ", Address: " + rs.getString(2) + " , Salary: " + rs.getInt(3));
+		}
+		
+		if (stmt != null) stmt.close();		
+		if (conn != null) conn.close();
+	}
+
+}
+
+Output:
+Name: Abi, Address: Trichy , Salary: 29000
+Name: Jiji, Address: Tiruchendur , Salary: 80000
+Name: Jiji, Address: Tiruchendur , Salary: 80000
